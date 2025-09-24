@@ -47,6 +47,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Custom Spark Labs Colors */
+        electric: {
+          DEFAULT: "hsl(var(--electric))",
+          glow: "hsl(var(--electric-glow))",
+        },
+        luxury: {
+          gold: "hsl(var(--luxury-gold))",
+        },
+        surface: {
+          dark: "hsl(var(--dark-surface))",
+          darker: "hsl(var(--darker-surface))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -80,10 +92,25 @@ export default {
             height: "0",
           },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "lightning": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.05)" },
+        },
+        "pulse-electric": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--electric) / 0.4)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--electric) / 0.8)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 6s ease-in-out infinite",
+        "lightning": "lightning 2s ease-in-out infinite",
+        "pulse-electric": "pulse-electric 2s ease-in-out infinite",
       },
     },
   },

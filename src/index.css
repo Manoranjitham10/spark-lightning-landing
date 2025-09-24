@@ -2,41 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Spark Labs Design System - Premium AI Landing Page
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Premium Dark Theme */
+    --background: 240 10% 4%;
+    --foreground: 45 100% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 8% 6%;
+    --card-foreground: 45 100% 85%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 8% 6%;
+    --popover-foreground: 45 100% 85%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Electric Primary - Yellowish Orange */
+    --primary: 43 96% 56%;
+    --primary-foreground: 240 10% 4%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Luxury Gold Accents */
+    --secondary: 51 100% 50%;
+    --secondary-foreground: 240 10% 4%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 5% 15%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 240 10% 4%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 45 100% 85%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 5% 20%;
+    --input: 240 5% 20%;
+    --ring: 43 96% 56%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom Design Tokens */
+    --electric: 43 96% 56%;
+    --electric-glow: 43 96% 65%;
+    --luxury-gold: 51 100% 50%;
+    --dark-surface: 240 8% 6%;
+    --darker-surface: 240 10% 4%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--electric)), hsl(var(--electric-glow)));
+    --gradient-dark: linear-gradient(135deg, hsl(var(--darker-surface)), hsl(var(--dark-surface)));
+    --gradient-hero: radial-gradient(ellipse at center, hsl(var(--electric) / 0.1) 0%, hsl(var(--background)) 70%);
+    
+    /* Shadows & Effects */
+    --shadow-electric: 0 0 50px hsl(var(--electric) / 0.3);
+    --shadow-luxury: 0 20px 60px hsl(var(--luxury-gold) / 0.1);
+    --glow-electric: 0 0 30px hsl(var(--electric) / 0.6);
+
+    /* Animation Variables */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-electric: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +124,90 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
   }
+}
+
+@layer components {
+  /* Electric Button Variants */
+  .btn-electric {
+    @apply bg-gradient-to-r from-electric to-electric-glow text-primary-foreground font-semibold px-8 py-4 rounded-xl;
+    @apply hover:shadow-electric hover:scale-105 transition-all duration-300;
+    @apply relative overflow-hidden;
+  }
+  
+  .btn-electric::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0;
+    @apply -translate-x-full transition-all duration-500;
+  }
+  
+  .btn-electric:hover::before {
+    @apply opacity-20 translate-x-full;
+  }
+
+  /* Navigation Links */
+  .nav-link {
+    @apply relative text-foreground/80 hover:text-foreground transition-colors duration-300;
+  }
+  
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-electric transition-all duration-300;
+  }
+  
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Lightning Animation */
+  .lightning-glow {
+    @apply animate-pulse;
+    filter: drop-shadow(var(--glow-electric));
+  }
+  
+  /* Sparkle Animation */
+  .sparkle {
+    @apply animate-bounce;
+    animation-delay: var(--delay, 0s);
+  }
+}
+
+@layer utilities {
+  /* Custom Gradients */
+  .bg-gradient-electric {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-dark {
+    background: var(--gradient-dark);
+  }
+  
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  /* Text Gradients */
+  .text-gradient-electric {
+    @apply bg-gradient-to-r from-electric to-electric-glow bg-clip-text text-transparent;
+  }
+  
+  /* Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-lightning {
+    animation: lightning 2s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes lightning {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
 }
