@@ -18,8 +18,8 @@ All colors MUST be HSL.
     --popover: 240 8% 6%;
     --popover-foreground: 45 100% 85%;
 
-    /* Electric Primary - Yellowish Orange */
-    --primary: 43 96% 56%;
+    /* Electric Primary - Updated to #bd8318 */
+    --primary: 39 78% 42%;
     --primary-foreground: 240 10% 4%;
 
     /* Luxury Gold Accents */
@@ -29,7 +29,7 @@ All colors MUST be HSL.
     --muted: 240 5% 15%;
     --muted-foreground: 240 5% 65%;
 
-    --accent: 43 96% 56%;
+    --accent: 39 78% 42%;
     --accent-foreground: 240 10% 4%;
 
     --destructive: 0 84% 60%;
@@ -41,9 +41,9 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Custom Design Tokens */
-    --electric: 43 96% 56%;
-    --electric-glow: 43 96% 65%;
+    /* Custom Design Tokens - Updated to #bd8318 family */
+    --electric: 39 78% 42%;
+    --electric-glow: 39 78% 52%;
     --luxury-gold: 51 100% 50%;
     --dark-surface: 240 8% 6%;
     --darker-surface: 240 10% 4%;
@@ -171,6 +171,29 @@ All colors MUST be HSL.
     @apply animate-bounce;
     animation-delay: var(--delay, 0s);
   }
+
+  /* Image soft mask to blend PNG edges into the background */
+  .image-soft-mask {
+    -webkit-mask-image: radial-gradient(circle at 50% 45%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%);
+            mask-image: radial-gradient(circle at 50% 45%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 95%);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 140% 140%;
+            mask-size: 140% 140%;
+    -webkit-mask-position: center;
+            mask-position: center;
+  }
+
+  /* Subtle drop shadow for vector agent */
+  .agent-drop-shadow {
+    filter: drop-shadow(0 4px 10px hsl(var(--electric) / 0.35)) drop-shadow(0 1px 2px hsl(var(--darker-surface) / 0.9));
+  }
+
+  /* Key out dark backgrounds (approximate) using blend + contrast */
+  .key-dark-bg {
+    mix-blend-mode: screen; /* hides dark backgrounds over dark hero */
+    filter: brightness(1.05) contrast(1.2) saturate(1.05);
+  }
 }
 
 @layer utilities {
@@ -187,6 +210,16 @@ All colors MUST be HSL.
     background: var(--gradient-hero);
   }
   
+  /* Reference-style hero gradient: dark left to warm golden right */
+  .bg-hero-reference {
+    background: linear-gradient(100deg,
+      hsl(var(--darker-surface)) 0%,
+      hsl(var(--dark-surface)) 45%,
+      hsl(var(--electric) / 0.08) 70%,
+      hsl(var(--luxury-gold) / 0.12) 100%
+    );
+  }
+  
   /* Text Gradients */
   .text-gradient-electric {
     @apply bg-gradient-to-r from-electric to-electric-glow bg-clip-text text-transparent;
@@ -200,6 +233,25 @@ All colors MUST be HSL.
   .animate-lightning {
     animation: lightning 2s ease-in-out infinite;
   }
+
+  /* Horizontal marquee for ScrollVelocity */
+  .scroll-velocity {
+    animation-name: scrollX;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* Preloader animations */
+  .animate-blob {
+    animation: blob 8s ease-in-out infinite;
+  }
+  .animate-blob-2 {
+    animation: blob 9s ease-in-out infinite reverse;
+  }
+  .animate-preloader-fade {
+    animation: preloaderFadeOut 0.8s ease-in-out forwards;
+    animation-delay: 5.6s; /* ~2s first line + ~3.6s second line + small buffer */
+  }
 }
 
 @keyframes float {
@@ -210,4 +262,20 @@ All colors MUST be HSL.
 @keyframes lightning {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes scrollX {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(20px, -10px) scale(1.05); }
+  50% { transform: translate(0, 10px) scale(0.98); }
+  75% { transform: translate(-15px, -5px) scale(1.03); }
+}
+
+@keyframes preloaderFadeOut {
+  to { opacity: 0; }
 }

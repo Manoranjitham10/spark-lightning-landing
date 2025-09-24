@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
+import ScrollVelocity from "@/components/ScrollVelocity";
+import { useState } from "react";
+// Use public spark image so you can replace it easily without rebuilding assets
+// Place your new spark image at public/spark.png (with dark background to be keyed out)
+// Fallback to bundled asset if public file is missing
 import lightningHero from "@/assets/lightning-hero.png";
 
 const Hero = () => {
+  const [sparkSrc, setSparkSrc] = useState<string>(lightningHero);
+  const [showAgent, setShowAgent] = useState<boolean>(true);
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-reference">
       {/* Background Elements */}
       <div className="absolute inset-0">
         {/* Floating Sparkles */}
@@ -13,68 +20,85 @@ const Hero = () => {
         <div className="absolute top-60 right-20 w-1 h-1 bg-electric rounded-full sparkle" style={{ '--delay': '0.5s' } as React.CSSProperties}></div>
       </div>
 
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="container mx-auto px-6 md:px-10 lg:px-12 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10 py-24 lg:py-32">
         {/* Left Content */}
         <div className="space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+            <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight">
               <span className="text-foreground">Welcome to</span>
               <br />
               <span className="text-gradient-electric">Spark Labs</span>
             </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground max-w-2xl">
-              AI solutions transforming businesses with cutting-edge technology and intelligent automation
+            <p className="text-lg lg:text-xl text-muted-foreground/90 max-w-2xl leading-relaxed">
+              Transforming the way you work—our AI agents automate, optimize, and elevate your business to the next level.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="btn-electric text-lg px-8 py-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <Button className="btn-electric text-base lg:text-lg px-7 py-4">
               Explore Services
             </Button>
             <Button 
               variant="outline" 
-              className="border-electric text-electric hover:bg-electric hover:text-primary-foreground text-lg px-8 py-4 transition-all duration-300"
+              className="border-electric text-electric hover:bg-electric hover:text-primary-foreground text-base lg:text-lg px-7 py-4 transition-all duration-300 hover:shadow-electric"
             >
               Learn More
             </Button>
           </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 pt-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gradient-electric">500+</div>
-              <div className="text-sm text-muted-foreground">AI Agents Deployed</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gradient-electric">98%</div>
-              <div className="text-sm text-muted-foreground">Client Satisfaction</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gradient-electric">24/7</div>
-              <div className="text-sm text-muted-foreground">AI Support</div>
-            </div>
+          {/* Scrolling value props */}
+          <div className="pt-8">
+            <ScrollVelocity
+              texts={[
+                "Automate Smarter",
+                "Boost Productivity",
+                "Accelerate Growth",
+                "Optimize Workflows",
+                "Enhance Customer Experience",
+                "Future-Proof Your Business",
+              ]}
+              velocity={2}
+              className="custom-scroll-text"
+            />
           </div>
         </div>
 
         {/* Right Content - Lightning Element */}
         <div className="relative flex items-center justify-center">
           <div className="relative animate-float">
+            {/* Subtle gradient to blend into background (reduced, no yellow ring) */}
+            <div className="pointer-events-none absolute -inset-4 rounded-full bg-gradient-to-b from-transparent via-transparent to-transparent" />
+
             <img
-              src={lightningHero}
+              src={sparkSrc}
               alt="Electric Lightning - AI Power"
-              className="w-full max-w-md lg:max-w-lg drop-shadow-2xl lightning-glow animate-lightning"
+              className="w-full max-w-md lg:max-w-lg drop-shadow-2xl lightning-glow animate-lightning image-soft-mask key-dark-bg opacity-95"
+              onError={() => setSparkSrc(lightningHero)}
             />
             
-            {/* Electric Ring Effect */}
-            <div className="absolute inset-0 rounded-full border-2 border-electric/30 animate-pulse-electric"></div>
+            {/* Removed electric ring to avoid yellow oval around image */}
             
             {/* Floating Elements Around Lightning */}
             <div className="absolute -top-10 -right-10 w-16 h-16 bg-electric/10 rounded-full animate-float" style={{ animationDelay: '1s' } as React.CSSProperties}></div>
             <div className="absolute -bottom-10 -left-10 w-12 h-12 bg-luxury-gold/10 rounded-full animate-float" style={{ animationDelay: '2s' } as React.CSSProperties}></div>
+
+            {/* Mini AI Agent leaning on the spark (place your image at public/ai-agent.png) */}
+            {showAgent && (
+              <div className="absolute -bottom-2 right-4 lg:right-8 origin-bottom agent-drop-shadow" aria-hidden>
+                <img
+                  src="/ai-agent.png"
+                  alt="AI agent"
+                  className="w-24 lg:w-28 transform -rotate-8 translate-x-2 image-soft-mask mix-blend-normal"
+                  draggable={false}
+                  onError={() => setShowAgent(false)}
+                />
+                {/* Contact shadow */}
+                <div className="absolute -bottom-1 left-3 right-0 h-2 bg-black/40 blur-md rounded-full opacity-60 -z-10" />
+              </div>
+            )}
           </div>
 
-          {/* Background Glow */}
-          <div className="absolute inset-0 bg-electric/5 rounded-full blur-3xl scale-150"></div>
+          {/* Removed large background glow to avoid yellow oval */}
         </div>
       </div>
 

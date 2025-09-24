@@ -7,16 +7,18 @@ const Header = () => {
   const navigation = ["Home", "Services", "Projects", "Why Us", "Contact"];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
-      <div className="container mx-auto px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border/40">
+      <div className="container mx-auto px-6 md:px-10 lg:px-12 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-electric rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">S</span>
-            </div>
-            <span className="text-xl font-bold text-gradient-electric">Spark Labs</span>
-          </div>
+          <a href="#home" className="flex items-center space-x-3">
+            <img
+              src="/spark-labs-logo.png"
+              alt="Spark Labs logo"
+              className="h-8 md:h-9 w-auto select-none"
+              draggable={false}
+            />
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -24,7 +26,7 @@ const Header = () => {
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(' ', '-')}`}
-                className="nav-link"
+                className="nav-link hover:opacity-100 opacity-90"
               >
                 {item}
               </a>
@@ -33,7 +35,7 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="btn-electric">
+            <Button className="btn-electric hover:shadow-electric">
               Get Started
             </Button>
           </div>
